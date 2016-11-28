@@ -1,4 +1,3 @@
-//LinkedList
 class Node<T> {
     var value: T
     var next: Node<T>?
@@ -16,14 +15,22 @@ class LinkedList<T> {
     var first: Node<T>?
     
     func getLast() -> Node<T>? {
-        var last = first
-        while last?.next != nil {
-            last = last?.next
+        var node = first
+        while node?.next != nil {
+            node = node?.next
         }
-        return last
+        return node
     }
     
-    func addFirst( _ node: Node<T>) {
+    func getBeforeLast() -> Node<T>? {
+        var node = first
+        while node?.next?.next != nil {
+            node = node?.next
+        }
+        return node
+    }
+    
+    func addFirst(_ node: Node<T>) {
         if first == nil {
             first = node
         }
@@ -45,12 +52,32 @@ class LinkedList<T> {
         
     }
     
-    func deleteFirst() {
-        
+    func deleteFirst() -> Node<T>? {
+        if first == nil {
+            return nil
+        }
+        else {
+            let temp = first
+            first = first?.next
+            temp?.next = nil
+            return temp
+        }
     }
     
-    func deleteLast() {
-        
+    func deleteLast() -> Node<T>? {
+        if first == nil {
+            return nil
+        }
+        else if first?.next == nil {
+            return deleteFirst()
+        }
+        else {
+            let oldLast = getLast()
+            let beforeVariableLast = getBeforeLast()
+            beforeVariableLast?.next = nil
+            return oldLast
+           
+        }
     }
     
     func display() {
@@ -75,5 +102,12 @@ myList.display()
 
 var last = myList.getLast()
 last?.displayValue()
+print("*************")
 myList.addLast(Node<Int>(5))
+myList.display()
+
+var fist = myList.deleteFirst()
+myList.display()
+myList.deleteLast()?.displayValue()
+print("------")
 myList.display()
